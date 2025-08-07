@@ -74,8 +74,8 @@ The user should have:
 1. **Fork the repository**
 2. **Clone the project**
    ```bash
-   git clone https://github.com/josemaria02/DevOpsPipelineRepo.git
-   cd DevOpsPipelineRepo
+   git clone https://github.com/abirthapa1/DevOpsPipeline.git
+   cd DevOpsPipeline
    ```
 
 ## ec2-ssh using github actions
