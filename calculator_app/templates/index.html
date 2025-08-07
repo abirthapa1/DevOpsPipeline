@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <div class="calculator">
+      <div class="display">
+        <input type="text" name="" id="display" disabled />
+      </div>
+
+      <div class="buttons" id="buttons-container">
+        <!--dynamically create-->
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.getElementById("buttons-container");
+        const labels = [
+          "C",
+          "+/-",
+          "%",
+          "\u00F7",
+          "7",
+          "8",
+          "9",
+          "x",
+          "4",
+          "5",
+          "6",
+          "-",
+          "3",
+          "2",
+          "1",
+          "+",
+          "0",
+          ".",
+          "=",
+        ];
+
+        const actions = {
+          C: "clearDisplay()",
+          "\uF007": "appendToDisplay('/')",
+          x: "appendToDisplay('*')",
+          "-": "appendToDisplay('-')",
+          "+": "appendToDisplay('+')",
+          "=": "calculateResult()",
+        };
+
+        labels.forEach((label) => {
+          const button = document.createElement("button");
+          button.className = "button";
+          button.innerText = label;
+
+          if (actions[label]) {
+            button.setAttribute("onclick", actions[label]);
+            if (label !== "C") {
+              button.classList.add("operator");
+            }
+          } else if (label == "0") {
+            button.classList.add("zero");
+            button.setAttribute("onclick", "appendToDisplay('0')");
+          } else if (label !== "+/-" && label !== "%") {
+            button.setAttribute("onclick", `appendToDisplay('${label}')`);
+          }
+
+          container.appendChild(button);
+        });
+      });
+
+      function appendToDisplay(value) {
+        document.getElementById("display").value += value;
+      }
+
+      function clearDisplay() {
+        document.getElementById("display").value = "";
+      }
+
+      function calculateResult() {
+        const expression = document.getElementById("display").value;
+        $.post("/calculate", { expression: expression }, function (data) {
+          document.getElementById("display").value = data.result;
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+terraform_repo/.terraform.lock.hcl
+
+terraform_repo/.terraform
+
+terraform_repo/modules
